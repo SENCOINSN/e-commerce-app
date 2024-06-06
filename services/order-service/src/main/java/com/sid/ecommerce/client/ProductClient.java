@@ -18,8 +18,8 @@ import java.util.List;
 public class ProductClient {
     @Value("${application.config.product-url}")
     private String productUrl;
-    private final RestTemplate restTemplate;
-    //private final OAuth2ClientRestTemplate restTemplate;
+    //private final RestTemplate restTemplate;
+    private final OAuth2ClientRestTemplate restTemplate;
 
     public List<PurchaseResponse> purchaseProduct(List<PurchaseRequest> requests){
         HttpHeaders httpHeaders = new HttpHeaders();

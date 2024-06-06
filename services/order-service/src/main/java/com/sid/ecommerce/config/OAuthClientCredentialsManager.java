@@ -2,6 +2,12 @@ package com.sid.ecommerce.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 /*
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +26,7 @@ import static java.util.Objects.isNull;
 public class OAuthClientCredentialsManager {
     private static final Logger logger = LoggerFactory.getLogger(OAuthClientCredentialsManager.class);
 
-   /* private final OAuth2AuthorizedClientManager manager;
+   private final OAuth2AuthorizedClientManager manager;
     private final Authentication principal;
     private final ClientRegistration clientRegistration;
 
@@ -82,5 +88,5 @@ public class OAuthClientCredentialsManager {
             logger.error("client credentials error " + exp.getMessage());
         }
         return null;
-    }*/
+    }
 }
