@@ -1,0 +1,30 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: order-service
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: micro-services-api
+            client-secret: hDixwAQnWYAAuwALccyNUsfPQF9xFcWs
+        provider:
+          keycloak:
+            token-uri: http://localhost:9098/realms/micro-services/protocol/openid-connect/token
+
+openapi:
+  service:
+    title: order-service doc
+    version: 1.0.0
+    url: http://localhost:8070
+
+springdoc:
+  api-docs:
+    path: /api/v1/orders/v3/api-docs
+  swagger-ui:
+    path: /api/v1/orders/swagger-ui.html
+

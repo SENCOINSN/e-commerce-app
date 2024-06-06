@@ -1,0 +1,18 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: payment-service
+
+
+openapi:
+  service:
+    title: payment-service doc
+    version: 1.0.0
+    url: http://localhost:8060
+
+springdoc:
+  api-docs:
+    path: /api/v1/payments/v3/api-docs
+  swagger-ui:
+    path: /api/v1/payments/swagger-ui.html

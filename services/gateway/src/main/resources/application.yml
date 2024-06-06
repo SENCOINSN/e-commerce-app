@@ -1,0 +1,31 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9098/realms/micro-services"
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: gateway-service
+
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API GATEWAY Service
+      - url: /api/v1/products/v3/api-docs
+        name: Product Service
+      - url: /api/v1/payments/v3/api-docs
+        name: Payment Service
+      - url: /api/v1/orders/v3/api-docs
+        name: Order Service
+      - url: /api/v1/customers/v3/api-docs
+        name: Customer Service
