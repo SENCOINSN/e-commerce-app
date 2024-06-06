@@ -1,6 +1,7 @@
 package com.sid.ecommerce.client;
 
 
+import com.sid.ecommerce.config.OAuthFeignConfig;
 import com.sid.ecommerce.dto.CustomerResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,8 @@ import java.util.Optional;
 
 @FeignClient(
         name = "customer-service",
-        url = "${application.config.customer-url}"
+        url = "${application.config.customer-url}",
+        configuration = OAuthFeignConfig.class
 )
 public interface CustomerClient {
     @GetMapping("/{id}")

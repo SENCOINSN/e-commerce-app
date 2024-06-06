@@ -16,12 +16,13 @@ public class SecurityConfig {
         return serverHttpSecurity
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                        .pathMatchers("/eureka/**","/api/v1/payments/**",
-                                "/api/v1/products/**",
-                                "/webjars/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/*",
-                                "/api/v1/customers/**")
+                        //.pathMatchers("/eureka/**","/api/v1/payments/**",
+                               // "/api/v1/products/**",
+                                //"/webjars/swagger-ui/**",
+                                //"/v3/api-docs/**",
+                                //"/swagger-resources/*",
+                                //"/api/v1/customers/**")
+                        .pathMatchers("/eureka/**")
                         .permitAll()
                         .anyExchange()
                         .authenticated()

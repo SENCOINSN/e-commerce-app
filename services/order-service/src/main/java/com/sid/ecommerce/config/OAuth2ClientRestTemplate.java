@@ -9,6 +9,10 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Component;*/
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collection;
@@ -23,11 +27,12 @@ public class OAuth2ClientRestTemplate extends RestTemplate {
 
     //private final Authentication principal;
 
-   /* public OAuth2ClientRestTemplate(final AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager){
-       this.principal = createPrincipal();
+    public OAuth2ClientRestTemplate(final AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager){
+       //this.principal = createPrincipal();
         this.getInterceptors().add((request, body, execution) -> {
-            OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(CLIENT_REGISTRATION_ID)
-                    .principal(this.principal)
+            OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.
+                    withClientRegistrationId("keycloak")
+                    .principal("anonymous")
                     .build();
             OAuth2AuthorizedClient authorizedClient = authorizedClientServiceAndManager.authorize(authorizeRequest);
             final var token = Objects.requireNonNull(authorizedClient).getAccessToken().getTokenValue();
@@ -36,7 +41,7 @@ public class OAuth2ClientRestTemplate extends RestTemplate {
         });
     }
 
-    private Authentication createPrincipal() {
+   /* private Authentication createPrincipal() {
         return new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {

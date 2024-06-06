@@ -3,6 +3,7 @@ package com.sid.ecommerce.service;
 import com.sid.ecommerce.client.CustomerClient;
 import com.sid.ecommerce.client.PaymentClient;
 import com.sid.ecommerce.client.ProductClient;
+import com.sid.ecommerce.client.ProductClient1;
 import com.sid.ecommerce.dto.*;
 import com.sid.ecommerce.exception.BusinessException;
 import com.sid.ecommerce.kafka.OrderProducer;
@@ -23,7 +24,8 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final CustomerClient customerClient;
-    private final ProductClient productClient;
+    //private final ProductClient productClient;
+    private final ProductClient1 productClient;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderLineService orderLineService;
