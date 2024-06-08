@@ -41,13 +41,20 @@ public class OrderService {
 
         BigDecimal priceTotal = calculatePrice(purchasesProduct);
 
+        log.info("create save order line ..");
         saveOrderLine(request.products(),order.getId());
+        log.info("save orderline successfully");
 
+        log.info("send payment processor ");
         sendPaymentProcess(order.getId(),order.getReference(),
                 priceTotal,customer,request.method());
 
+        log.info("send payment processor successfully ..");
+
+        log.info("send confirmation order..");
         sendOrderConfirmation(request.reference(),priceTotal,
                 request.method(),customer,purchasesProduct);
+        log.info("order confirmation sended successfully..");
 
         return order.getId();
     }

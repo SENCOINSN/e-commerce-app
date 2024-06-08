@@ -7,6 +7,7 @@ import com.sid.ecommerce.exceptions.CustomerNotFoundException;
 import com.sid.ecommerce.mapper.CustomerMapper;
 import com.sid.ecommerce.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,20 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
     public String createCustomer(CustomerRequest request){
+        log.info("creating customer request body ....");
      var customer = customerRepository.save(customerMapper.toCustomer(request));
      return customer.getId();
     }
 
     public void updateCustomer(CustomerRequest customerRequest){
+        log.info("retrieve customer for update");
         var customer = customerRepository.findById(customerRequest.id())
                 .orElseThrow(()->new CustomerNotFoundException(
                         String.format("customer with id %s not found ",customerRequest.id())

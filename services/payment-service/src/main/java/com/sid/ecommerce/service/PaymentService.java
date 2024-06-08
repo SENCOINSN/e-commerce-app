@@ -6,17 +6,19 @@ import com.sid.ecommerce.mapper.PaymentMapper;
 import com.sid.ecommerce.notification.NotificationProducer;
 import com.sid.ecommerce.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final NotificationProducer notificationProducer;
     public Integer createPayment(PaymentRequest request){
+        log.info("process create payment request... {}",request);
         var payment = paymentRepository.save(paymentMapper.toPayment(request));
-        //need kafka notification
         notificationProducer.sendNotification(
                 new PaymentNotificationRequest(
                        request.orderReference(),
