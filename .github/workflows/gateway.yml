@@ -4,11 +4,11 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - services/gateway/**
+      - 'services/gateway/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - services/gateway/**
+      - 'services/gateway/**'
 
 jobs:
   compile:
