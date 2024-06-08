@@ -1,0 +1,103 @@
+name: payment service API Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - services/payment-service/**
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - services/payment-service/**
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    name: Compile project
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Compile payment service
+        run: |
+         cd services/payment-service
+         mvn clean compile
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: Unit tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Running Unit Tests
+        run: |
+          cd services/payment-service 
+          mvn clean test
+
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build payment service
+    needs: [ compile ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Build payment service 
+        run: |
+          cd services/payment-service 
+          mvn clean package -DskipTests
+          
+
+  # build-image:
+  #   name: Build Docker image
+  #   runs-on: ubuntu-latest
+  #   needs: [ build ]
+  #   steps:
+  #     - name: Setup JDK
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: '17'
+  #         distribution: 'corretto'
+
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  #     - name: Build & Push to DockerHub
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         file: docker/backend/Dockerfile
+  #         push: true
+  #         platforms: linux/amd64
+  #         tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:1.0.0,${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+  #         build-args: |
+  #           PROFILE=dev
+  #           APP_VERSION=1.0.0  
+            
