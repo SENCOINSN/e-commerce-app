@@ -2,13 +2,16 @@ name: customer service API Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/customer/**'
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/customer/**'
+  workflow_dispatch:
 
 jobs:
   compile:

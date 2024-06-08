@@ -2,13 +2,16 @@ name: gateway  API Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/gateway/**'
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
     paths:
       - 'services/gateway/**'
+  workflow_dispatch:
 
 jobs:
   compile:

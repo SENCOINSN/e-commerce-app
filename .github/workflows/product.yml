@@ -2,13 +2,16 @@ name: product service API Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/product-service/**'
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/product-service/**'
+  workflow_dispatch:
 
 jobs:
   compile:

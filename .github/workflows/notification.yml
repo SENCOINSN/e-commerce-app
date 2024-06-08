@@ -2,13 +2,16 @@ name: notification service API Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/notification/**'
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/notification/**'
+  workflow_dispatch:
 
 jobs:
   compile:

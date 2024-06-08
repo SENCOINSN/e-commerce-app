@@ -2,13 +2,16 @@ name: order service API Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/order-service/**'
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/order-service/**'
+  workflow_dispatch:
     
 
 jobs:

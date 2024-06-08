@@ -2,13 +2,17 @@ name: Discovery service API Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/discovery/**'
   pull_request:
-    branches: [ "main" ]
+    branches: 
+      - main
     paths:
       - 'services/discovery/**'
+
+  workflow_dispatch:
 
 jobs:
   compile:
