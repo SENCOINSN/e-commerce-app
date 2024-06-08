@@ -7,6 +7,8 @@ import com.sid.ecommerce.dto.*;
 import com.sid.ecommerce.exception.BusinessException;
 import com.sid.ecommerce.kafka.OrderProducer;
 import com.sid.ecommerce.mapper.OrderMapper;
+import com.sid.ecommerce.model.Order;
+import com.sid.ecommerce.model.PaymentMethod;
 import com.sid.ecommerce.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,53 +33,22 @@ public class OrderService {
     private final PaymentClient paymentClient;
 
     public Integer createOrder(OrderRequest request) {
-        //check the customer -->OpenFeign
         var customer = customerClient.findCustomerById(request.customerId())
                 .orElseThrow(() -> new BusinessException("cannot create order:: customer not found"));
-
         log.info("customer retrieve  ...{}",customer);
-
-        //purchase the products -->product-ms(RestTemplate)
         var purchasesProduct = productClient.purchaseProduct(request.products());
         var order = orderRepository.save(orderMapper.toOrder(request));
-        //persist orderline
-        //loop to calculate price total order
-        BigDecimal priceTotal = new BigDecimal(0);
-        for(PurchaseResponse purchase : purchasesProduct){
-            priceTotal = priceTotal.add(purchase.price().multiply(BigDecimal.valueOf(purchase.quantity())));
-        }
 
-        for (PurchaseRequest purchaseRequest : request.products()) {
-            orderLineService.saveOrderLine(
-                    new OrderLineRequest(
-                            null,
-                            order.getId(),
-                            purchaseRequest.productId(),
-                            purchaseRequest.quantity()
-                    )
-            );
+        BigDecimal priceTotal = calculatePrice(purchasesProduct);
 
-        }
+        saveOrderLine(request.products(),order.getId());
 
-        //done start payment process
+        sendPaymentProcess(order.getId(),order.getReference(),
+                priceTotal,customer,request.method());
 
-        paymentClient.requestOrderPayment(new PaymentRequest(
-                priceTotal,
-                request.method(),
-                order.getId(),
-                order.getReference(),
-                customer
-        ));
-        // send the order confirmation--> notif ms (kafka)
-        orderProducer.sendConfirmation(
-                new OrderConfirmation(
-                        request.reference(),
-                        priceTotal,
-                        request.method(),
-                        customer,
-                        purchasesProduct
-                )
-        );
+        sendOrderConfirmation(request.reference(),priceTotal,
+                request.method(),customer,purchasesProduct);
+
         return order.getId();
     }
 
@@ -94,5 +65,52 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("not order found with id %d ", id)
                 ));
+    }
+
+    private BigDecimal calculatePrice(List<PurchaseResponse> purchaseResponses){
+      BigDecimal total = new BigDecimal(0);
+        for(PurchaseResponse purchase : purchaseResponses){
+            total = total.add(purchase.price().multiply(BigDecimal.valueOf(purchase.quantity())));
+        }
+        return total;
+    }
+
+    private void saveOrderLine(List<PurchaseRequest> requests,Integer orderId){
+        for (PurchaseRequest purchaseRequest : requests) {
+            orderLineService.saveOrderLine(
+                    new OrderLineRequest(
+                            null,
+                            orderId,
+                            purchaseRequest.productId(),
+                            purchaseRequest.quantity()
+                    )
+            );
+
+        }
+    }
+
+    private void sendPaymentProcess(Integer orderId,String reference, BigDecimal totalPrice, CustomerResponse customer, PaymentMethod method){
+        paymentClient.requestOrderPayment(
+                new PaymentRequest(
+                        totalPrice,
+                        method,
+                        orderId,
+                        reference,
+                        customer
+                )
+        );
+    }
+
+    private void sendOrderConfirmation(String reference,BigDecimal priceTotal,PaymentMethod method,CustomerResponse customer,
+                                       List<PurchaseResponse> purchasesProduct){
+        orderProducer.sendConfirmation(
+                new OrderConfirmation(
+                        reference,
+                        priceTotal,
+                        method,
+                        customer,
+                        purchasesProduct
+                )
+        );
     }
 }
