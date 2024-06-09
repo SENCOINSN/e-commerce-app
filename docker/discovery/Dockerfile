@@ -16,7 +16,7 @@ COPY --from=build /build/target/*.jar /app/
 
 EXPOSE 8888
 
-#ENV DB_URL=jdbc:postgresql://host.docker.internal:5432/bd_payments
+
 #ENV ACTIVE_PROFILE=${PROFILE}
 #ENV JAR_VERSION=${APP_VERSION}
 
