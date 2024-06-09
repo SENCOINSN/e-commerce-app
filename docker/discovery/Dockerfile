@@ -1,9 +1,9 @@
 # Build stage
 FROM maven:3.8.7-openjdk-18 AS build
 WORKDIR /build
-COPY ../../services/config-server/pom.xml .
+COPY ../../services/discovery/pom.xml .
 RUN mvn dependency:go-offline
-COPY ../../services/config-server/src ./src
+COPY ../../services/discovery/src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
@@ -12,7 +12,7 @@ FROM amazoncorretto:17
 ARG APP_VERSION=0.0.1-SNAPSHOT
 
 WORKDIR /app
-COPY --from=build /build/target/config-sever-*.jar /app/
+COPY --from=build /build/target/discovery-*.jar /app/
 
 EXPOSE 8888
 
@@ -20,4 +20,4 @@ EXPOSE 8888
 #ENV ACTIVE_PROFILE=${PROFILE}
 ENV JAR_VERSION=${APP_VERSION}
 
-CMD java -jar config-server-${JAVA_VERSION}.jar
+CMD java -jar discovery-${JAR_VERSION}.jar
