@@ -9,15 +9,15 @@ RUN mvn clean package -DskipTests
 # Runtime stage
 FROM amazoncorretto:17
 #ARG PROFILE=dev
-ARG APP_VERSION=0.0.1-SNAPSHOT
+#ARG APP_VERSION=0.0.1-SNAPSHOT
 
 WORKDIR /app
-COPY --from=build /build/target/discovery-*.jar /app/
+COPY --from=build /build/target/*.jar /app/
 
 EXPOSE 8888
 
 #ENV DB_URL=jdbc:postgresql://host.docker.internal:5432/bd_payments
 #ENV ACTIVE_PROFILE=${PROFILE}
-ENV JAR_VERSION=${APP_VERSION}
+#ENV JAR_VERSION=${APP_VERSION}
 
-CMD java -jar discovery-${JAR_VERSION}.jar
+CMD java -jar discovery-1.0.0.jar

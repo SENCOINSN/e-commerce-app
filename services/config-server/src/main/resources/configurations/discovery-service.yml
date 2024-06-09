@@ -1,6 +1,6 @@
 eureka:
   instance:
-    hostname: eureka.svc
+    hostname: eureka-svc
   client:
     register-WithEureka: false
     fetchRegistry: false
