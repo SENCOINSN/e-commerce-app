@@ -14,7 +14,7 @@ FROM amazoncorretto:17
 WORKDIR /app
 COPY --from=build /build/target/*.jar /app/
 
-EXPOSE 8888
+EXPOSE 8761
 
 
 #ENV ACTIVE_PROFILE=${PROFILE}
