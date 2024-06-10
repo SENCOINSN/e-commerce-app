@@ -1,7 +1,5 @@
 package com.sid.ecommerce.advices;
 
-
-;
 import com.sid.ecommerce.exceptions.ProductPurchaseException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
