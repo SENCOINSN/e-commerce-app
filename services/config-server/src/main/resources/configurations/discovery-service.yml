@@ -3,9 +3,9 @@ server:
 
 eureka:
   instance:
-    hostname: ${HOSTNAME}
+    hostname: eureka-svc
   client:
     register-WithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: ${EUREKA_SERVER_ADDRESS}
+      defaultZone: http://eureka-svc:8761/eureka/ 
