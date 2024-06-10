@@ -1,6 +1,6 @@
 eureka:
   instance:
-    hostname: eureka-svc.default.svc.cluster.local
+    hostname: eureka-svc
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka
