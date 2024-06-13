@@ -5,13 +5,13 @@ spring:
     mongodb:
       username: admin
       password: admin
-      host: localhost
+      host: mongo-nodeport-svc
       port: 27017
       database: notification
       authentication-database: admin
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: broker:9092
       group-id: paymentGroup,orderGroup
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer

@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://confi-server-svc:8888
   application:
     name: payment-service
 
@@ -9,7 +9,7 @@ openapi:
   service:
     title: payment-service doc
     version: 1.0.0
-    url: http://localhost:8060
+    url: http://payment-svc:8060
 
 springdoc:
   api-docs:

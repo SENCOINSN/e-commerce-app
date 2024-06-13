@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://confi-server-svc:8888
   application:
     name: product-service
 
@@ -8,7 +8,7 @@ openapi:
   service:
     title: product-service doc
     version: 1.0.0
-    url: http://localhost:8050
+    url: http://product-svc:8050
 
 springdoc:
   api-docs:

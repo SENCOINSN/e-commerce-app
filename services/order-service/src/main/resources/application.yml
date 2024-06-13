@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://confi-server-svc:8888
   application:
     name: order-service
 
@@ -11,16 +11,16 @@ spring:
           keycloak:
             authorization-grant-type: client_credentials
             client-id: micro-services-api
-            client-secret: hDixwAQnWYAAuwALccyNUsfPQF9xFcWs
+            client-secret: KTVWJFdI9YPrSlJH4mdHFTvTW5osze8q
         provider:
           keycloak:
-            token-uri: http://localhost:9098/realms/micro-services/protocol/openid-connect/token
+            token-uri: http://keycloak:8080/realms/micro-services/protocol/openid-connect/token
 
 openapi:
   service:
     title: order-service doc
     version: 1.0.0
-    url: http://localhost:8070
+    url: http://order-svc:8070
 
 springdoc:
   api-docs:

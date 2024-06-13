@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/order
+    url: jdbc:postgresql://postgres-svc:5432/order
     username: postgres
     password: postgres
   jpa:
@@ -14,7 +14,7 @@ spring:
 
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: broker:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
@@ -22,6 +22,6 @@ spring:
 
 application:
   config:
-    customer-url: http://localhost:8222/api/v1/customers
-    payment-url: http://localhost:8222/api/v1/payments
-    product-url: http://localhost:8222/api/v1/products
+    customer-url: http://gateway-svc:8222/api/v1/customers
+    payment-url: http://gateway-svc:8222/api/v1/payments
+    product-url: http://gateway-svc:8222/api/v1/products
